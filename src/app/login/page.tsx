@@ -1,15 +1,16 @@
 'use client';
-
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChefHat, Lock, Mail, ArrowRight, Loader2 } from 'lucide-react';
 
+export const dynamic = "force-dynamic";
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,7 +34,7 @@ export default function LoginPage() {
       } else {
         const sessionRes = await fetch('/api/auth/session');
         const session = await sessionRes.json();
-        
+
         if (session?.user?.role === 'SUPERADMIN') {
           router.push('/admin');
         } else {
@@ -74,7 +75,7 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
-            
+
             <div className="space-y-1">
               <label className="block text-sm font-bold text-zinc-700">Email address</label>
               <div className="relative mt-2">
@@ -130,7 +131,7 @@ export default function LoginPage() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-8 text-center text-xs font-semibold text-zinc-400">
             Protected by SaaS Security Infrastructure
           </div>
